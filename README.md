@@ -30,38 +30,10 @@ dirTree
 
 ## 例子
 
-配置 conf.js
-
-```JavaScript
-module.exports = {
-    "name": "dirTree",       // 根目录名
-    "path": "./",            // 根目录路径
-    "ignoreList": [/^\./],   // 忽略列表，当正则匹配成功时忽略该文件／目录
-    "type": "console"        // 打印方式，console表示打印到控制台
-}
-```
-
-运行 tree.js
+cmd:
 
 ```
-node tree.js
-```
-
-程序将会 dfs 遍历目录得到一个树状的 json 对象：
-
-```
-{
-  name: 'dirTree',
-  type: 'dir',
-  childD: [{
-    name: 'lib',
-    type: 'dir',
-    childD: [],
-    childF: [{name: 'dirTree.js', type: 'file'}]
-  }],
-  childF: [{name: 'conf.js', type: 'file'},
-    {name: 'tree.js', type: 'file'}]
-}
+tree -l 2 -o output.txt
 ```
 
 打印树状图到控制台：
@@ -78,4 +50,10 @@ dirTree
   ├─conf.js
   │
   └─tree.js
+```
+
+## 安装
+
+```
+npm install -g sys-tree
 ```
