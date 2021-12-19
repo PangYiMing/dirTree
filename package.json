@@ -1,7 +1,7 @@
 {
-  "name": "web",
+  "name": "tree-cli",
   "version": "1.0.0",
-  "description": "\"# Web\"",
+  "description": "\"# tree cli\"",
   "main": "file.js",
   "directories": {
     "test": "test"
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PangYiMing/Web.git"
+    "url": "git+https://github.com/PangYiMing/dirTree.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/PangYiMing/Web/issues"
+    "url": "https://github.com/PangYiMing/dirTree/issues"
   },
-  "homepage": "https://github.com/PangYiMing/Web#readme",
+  "homepage": "https://github.com/PangYiMing/dirTree#readme",
   "devDependencies": {
     "@types/node": "^16.11.10",
     "@types/uuid": "^8.3.3",
