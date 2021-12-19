@@ -1,0 +1,33 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "description": "\"# Web\"",
+  "main": "file.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "tree-cli": "./dist/fileDirTree/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PangYiMing/Web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PangYiMing/Web/issues"
+  },
+  "homepage": "https://github.com/PangYiMing/Web#readme",
+  "devDependencies": {
+    "@types/node": "^16.11.10",
+    "@types/uuid": "^8.3.3",
+    "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "commander": "^8.3.0"
+  }
+}
