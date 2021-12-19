@@ -1,7 +1,7 @@
 {
-  "name": "tree-cli",
+  "name": "dir-tree",
   "version": "1.0.0",
-  "description": "\"# tree cli\"",
+  "description": "\"# dir tree cli\"",
   "main": "file.js",
   "directories": {
     "test": "test"
