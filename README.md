@@ -33,7 +33,7 @@ dirTree
 cmd:
 
 ```
-tree -l 2 -o output.txt
+stree
 ```
 
 打印树状图到控制台：
@@ -50,6 +50,18 @@ dirTree
   ├─conf.js
   │
   └─tree.js
+```
+
+
+支持的参数
+
+```
+// stree -t 路径 -d 层级 -i 忽略列表
+// 默认值 -t ./（当前目录）
+// 默认值 -d -1 （无限层级）
+// 默认值 -i .git,node_modules
+stree -t /Users/xxx/workspace  -d 2 -i .git,node_modules
+
 ```
 
 ## 安装

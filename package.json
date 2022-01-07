@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "sys-tree": "./dist/fileDirTree/index.js"
+    "stree": "./dist/fileDirTree/index.js"
   },
   "repository": {
     "type": "git",
