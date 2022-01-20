@@ -14,9 +14,12 @@ const path_1 = __importDefault(require("path"));
  *  maxDeep 最大回调次数，默认-1（无限层级请设为-1）  ——可选
  * @returns
  */
-function walkSync({ dirPath, callback, maxDeep, }) {
+function walkSync({ dirPath, callback, maxDeep }) {
     readFileSystem({
-        dirPath, callback, maxDeep, deep: 1
+        dirPath,
+        callback,
+        maxDeep,
+        deep: 1,
     });
 }
 exports.walkSync = walkSync;
@@ -29,13 +32,16 @@ exports.walkSync = walkSync;
  *  deep 当前深度  ——可选
  * @returns
  */
-function readFileSystem({ dirPath, callback, maxDeep, deep = 1, parent = {} }) {
+function readFileSystem({ dirPath, callback, maxDeep, deep = 1, parent = {}, }) {
     if (typeof dirPath !== 'string') {
         return;
     }
     else if (!fs_1.default.existsSync(dirPath)) {
         console.error('readFileSystem fs error, file no exist', {
-            dirPath, callback, maxDeep, deep
+            dirPath,
+            callback,
+            maxDeep,
+            deep,
         });
         return;
     }
@@ -44,7 +50,10 @@ function readFileSystem({ dirPath, callback, maxDeep, deep = 1, parent = {} }) {
     }
     else if (maxDeep === 0) {
         console.error('readFileSystem maxDeep error, maxDeep invail', {
-            dirPath, callback, maxDeep, deep
+            dirPath,
+            callback,
+            maxDeep,
+            deep,
         });
         return;
     }
@@ -53,7 +62,10 @@ function readFileSystem({ dirPath, callback, maxDeep, deep = 1, parent = {} }) {
     }
     else if (deep <= 0) {
         console.error('readFileSystem deep error, deep invail', {
-            dirPath, callback, maxDeep, deep
+            dirPath,
+            callback,
+            maxDeep,
+            deep,
         });
         return;
     }
@@ -64,22 +76,30 @@ function readFileSystem({ dirPath, callback, maxDeep, deep = 1, parent = {} }) {
     fileArr.forEach(function (name, index) {
         var filePath = path_1.default.join(dirPath, name);
         var stat = fs_1.default.statSync(filePath);
-        const isEnd = (fileArr.length - 1) === index;
+        const isEnd = fileArr.length - 1 === index;
         if (stat.isFile()) {
             callback(filePath, stat, {
-                deep, isEnd, parent
+                deep,
+                isEnd,
+                parent,
             });
         }
         else if (stat.isDirectory()) {
             callback(filePath, stat, {
-                deep, isEnd, parent
+                deep,
+                isEnd,
+                parent,
             });
             if (maxDeep < 0 || maxDeep > deep) {
                 if (!parent.isEndArr) {
                     parent.isEndArr = [];
                 }
                 readFileSystem({
-                    dirPath: filePath, callback, maxDeep, deep: deep + 1, parent: Object.assign(Object.assign({}, parent), { isEnd, isEndArr: [...parent.isEndArr, isEnd] })
+                    dirPath: filePath,
+                    callback,
+                    maxDeep,
+                    deep: deep + 1,
+                    parent: Object.assign(Object.assign({}, parent), { isEnd, isEndArr: [...parent.isEndArr, isEnd] }),
                 });
             }
         }

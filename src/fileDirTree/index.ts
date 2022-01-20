@@ -1,3 +1,10 @@
+/*
+ * @Author: pym
+ * @Date: 2022-01-10 09:48:34
+ * @LastEditors: pym
+ * @Description:
+ * @LastEditTime: 2022-01-20 14:46:52
+ */
 import path from 'path';
 import { walkSync } from '../utils/readDirPaths';
 import { stringMul, stringMulLastEnd } from '../utils/strUtils';

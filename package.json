@@ -7,6 +7,8 @@
     "test": "test"
   },
   "scripts": {
+    "dev": "ts-node ./src/fileDirTree",
+    "build": "tsc",
     "pretty": "prettier --config .prettierrc --write \"src/**/*.{js,ts,tsx,less}\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install"
