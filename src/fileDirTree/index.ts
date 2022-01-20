@@ -3,7 +3,7 @@
  * @Date: 2022-01-10 09:48:34
  * @LastEditors: pym
  * @Description:
- * @LastEditTime: 2022-01-20 14:46:52
+ * @LastEditTime: 2022-01-20 15:41:29
  */
 import path from 'path';
 import { walkSync } from '../utils/readDirPaths';
@@ -23,7 +23,7 @@ program
 program.parse();
 
 const options = program.opts();
-const { target, deep, ignore } = options;
+// const { target, deep, ignore } = options;
 if (!options.target) {
     options.target = process.cwd();
 }
@@ -36,10 +36,10 @@ if (!options.ignore) {
 console.log(options);
 
 // TODO 如果指定层级在当前行无下一个子元素应该为空格缩进，如果当前行是最后一个子元素应该是回车符号+空格缩进，如果其他，应该是竖线+空格缩进
-const dirPath = path.resolve(__dirname, '../../');
+// const dirPath = path.resolve(__dirname, '../../');
 
 let abortArr: string[] = execAbortArr(
-    ignore ? ignore.split(',') : ['.git', 'node_modules']
+    options.ignore ? options.ignore.split(',') : ['.git', 'node_modules']
 );
 
 // console.log('abortArr', abortArr)
@@ -53,7 +53,7 @@ function callback(
 ) {
     const { deep, isEnd, parent } = treeOpt;
     if (isFirst) {
-        console.log(dirPath.split(path.sep).pop());
+        console.log(options.target.split(path.sep).pop());
     }
     if (filePath && strNotIncludeStringInArr(filePath, abortArr)) {
         let printStr = '  ';
@@ -72,7 +72,7 @@ function callback(
 }
 
 walkSync({
-    dirPath: target ? path.resolve(target) : process.cwd(),
+    dirPath: options.target ? path.resolve(options.target) : process.cwd(),
     callback,
-    maxDeep: deep ? parseInt(deep, 10) : -1,
+    maxDeep: options.deep ? parseInt(options.deep, 10) : -1,
 });

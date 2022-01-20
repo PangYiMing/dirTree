@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 'use strict';
 var __importDefault =
     (this && this.__importDefault) ||
@@ -12,7 +11,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
  * @Date: 2022-01-10 09:48:34
  * @LastEditors: pym
  * @Description:
- * @LastEditTime: 2022-01-20 15:15:07
+ * @LastEditTime: 2022-01-20 15:42:56
  */
 const path_1 = __importDefault(require('path'));
 const readDirPaths_1 = require('../utils/readDirPaths');
@@ -28,7 +27,7 @@ program
     );
 program.parse();
 const options = program.opts();
-const { target, deep, ignore } = options;
+// const { target, deep, ignore } = options;
 if (!options.target) {
     options.target = process.cwd();
 }
@@ -40,16 +39,16 @@ if (!options.ignore) {
 }
 console.log(options);
 // TODO 如果指定层级在当前行无下一个子元素应该为空格缩进，如果当前行是最后一个子元素应该是回车符号+空格缩进，如果其他，应该是竖线+空格缩进
-const dirPath = path_1.default.resolve(__dirname, '../../');
+// const dirPath = path.resolve(__dirname, '../../');
 let abortArr = (0, utils_1.execAbortArr)(
-    ignore ? ignore.split(',') : ['.git', 'node_modules']
+    options.ignore ? options.ignore.split(',') : ['.git', 'node_modules']
 );
 // console.log('abortArr', abortArr)
 let isFirst = true;
 function callback(filePath, stat, treeOpt) {
     const { deep, isEnd, parent } = treeOpt;
     if (isFirst) {
-        console.log(dirPath.split(path_1.default.sep).pop());
+        console.log(options.target.split(path_1.default.sep).pop());
     }
     if (filePath && (0, utils_1.strNotIncludeStringInArr)(filePath, abortArr)) {
         let printStr = '  ';
@@ -66,7 +65,9 @@ function callback(filePath, stat, treeOpt) {
     isFirst = false;
 }
 (0, readDirPaths_1.walkSync)({
-    dirPath: target ? path_1.default.resolve(target) : process.cwd(),
+    dirPath: options.target
+        ? path_1.default.resolve(options.target)
+        : process.cwd(),
     callback,
-    maxDeep: deep ? parseInt(deep, 10) : -1,
+    maxDeep: options.deep ? parseInt(options.deep, 10) : -1,
 });
