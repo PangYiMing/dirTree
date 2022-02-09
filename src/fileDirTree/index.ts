@@ -3,8 +3,9 @@
  * @Date: 2022-01-10 09:48:34
  * @LastEditors: pym
  * @Description:
- * @LastEditTime: 2022-01-20 15:41:29
+ * @LastEditTime: 2022-02-09 20:51:27
  */
+import fs from 'fs';
 import path from 'path';
 import { walkSync } from '../utils/readDirPaths';
 import { stringMul, stringMulLastEnd } from '../utils/strUtils';
@@ -18,7 +19,8 @@ program
     .option(
         '-i, --ignore <type>',
         'option:specify ignore dirs, etc.: .git,node_modules. default .git,node_modules'
-    );
+    )
+    .option('-r, --replace <type>', 'option: add or del startWith');
 
 program.parse();
 
@@ -32,6 +34,10 @@ if (!options.deep) {
 }
 if (!options.ignore) {
     options.ignore = '.git,node_modules';
+}
+if (!options.replace) {
+    // TODO 替换部分 or 新增
+    options.replace = '// @ts-nocheck\n';
 }
 console.log(options);
 
@@ -66,7 +72,18 @@ function callback(
         }
 
         printStr = printStr + (isEnd ? '└─' : '├─');
-        console.log(printStr + filePath.split(path.sep).pop());
+        // TODO 读取文件，写入文件
+        if (
+            fs.statSync(filePath).isFile() &&
+            (filePath.endsWith('.ts') || filePath.endsWith('.tsx'))
+        ) {
+            console.log('filePath', filePath);
+            const fileData = fs.readFileSync(filePath);
+            const newData = '// @ts-nocheck\n' + fileData;
+            // const newData = fileData.toString().replace('// @ts-nocheck\n', '');
+            fs.writeFileSync(filePath, newData);
+            console.log(printStr + filePath.split(path.sep).pop());
+        }
     }
     isFirst = false;
 }
