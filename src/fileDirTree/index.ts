@@ -3,11 +3,12 @@
  * @Date: 2022-01-10 09:48:34
  * @LastEditors: pym
  * @Description:
- * @LastEditTime: 2022-01-20 15:41:29
+ * @LastEditTime: 2022-10-10 16:33:25
  */
 import path from 'path';
 import { walkSync } from '../utils/readDirPaths';
-import { stringMul, stringMulLastEnd } from '../utils/strUtils';
+import transformDocs from '../plugin/index';
+// import { stringMul, stringMulLastEnd } from '../utils/strUtils';
 import { execAbortArr, strNotIncludeStringInArr } from '../utils/utils';
 
 const { Command } = require('commander');
@@ -45,6 +46,7 @@ let abortArr: string[] = execAbortArr(
 // console.log('abortArr', abortArr)
 
 let isFirst = true;
+const target = options.target ? path.resolve(options.target) : process.cwd();
 
 function callback(
     filePath: string,
@@ -69,10 +71,13 @@ function callback(
         console.log(printStr + filePath.split(path.sep).pop());
     }
     isFirst = false;
+    if (stat.isFile()) {
+        transformDocs(filePath, path.resolve(target, 'docs'));
+        console.log(path.resolve(target, 'docs'));
+    }
 }
-
 walkSync({
-    dirPath: options.target ? path.resolve(options.target) : process.cwd(),
+    dirPath: target,
     callback,
     maxDeep: options.deep ? parseInt(options.deep, 10) : -1,
 });
