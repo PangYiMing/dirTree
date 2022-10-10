@@ -144,9 +144,11 @@ const autoDocumentPlugin = declare((api, options, dirname) => {
                         } else {
                             const methodDoc = {
                                 name: path.get('key').toString(),
-                                doc: parseComment(
-                                    path.node.leadingComments.at(-1).value
-                                ),
+                                doc:
+                                    path.node.leadingComments &&
+                                    parseComment(
+                                        path.node.leadingComments.at(-1).value
+                                    ),
                                 params: path.get('params').map(paramPath => {
                                     return {
                                         name: paramPath.toString(),
@@ -179,10 +181,12 @@ const autoDocumentPlugin = declare((api, options, dirname) => {
             const docs = file.get('docs');
             const res = generate(docs, options.format);
             fse.ensureDirSync(options.outputDir);
-            fse.writeFileSync(
-                path.join(options.outputDir, options.fileName + res.ext),
-                res.content
-            );
+            if (res.content) {
+                fse.writeFileSync(
+                    path.join(options.outputDir, options.fileName + res.ext),
+                    res.content
+                );
+            }
         },
     };
 });
