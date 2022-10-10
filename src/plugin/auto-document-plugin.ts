@@ -132,10 +132,12 @@ const autoDocumentPlugin = declare((api, options, dirname) => {
                                         type: resolveType(
                                             paramPath.getTypeAnnotation()
                                         ),
-                                        doc: parseComment(
-                                            path.node.leadingComments.at(-1)
-                                                .value
-                                        ),
+                                        doc:
+                                            path.node.leadingComments &&
+                                            parseComment(
+                                                path.node.leadingComments.at(-1)
+                                                    .value
+                                            ),
                                     };
                                 }),
                             };
