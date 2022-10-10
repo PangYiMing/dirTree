@@ -3,7 +3,7 @@
  * @Date: 2022-01-10 09:48:34
  * @LastEditors: pym
  * @Description:
- * @LastEditTime: 2022-10-10 20:55:32
+ * @LastEditTime: 2022-10-10 21:08:06
  */
 import path from 'path';
 import { walkSync } from '../utils/readDirPaths';
@@ -14,7 +14,9 @@ import { Command } from 'commander';
 import fs from 'fs';
 
 // TODO 支持合并成一个文件
-// TODO 支持文件路径
+// TODO 支持本地文件路径在md里展示
+// TODO 支持单文件
+// TODO 支持子参数，单层的
 const program = new Command();
 program
     .option('-t, --target <type>', 'specify target path')
