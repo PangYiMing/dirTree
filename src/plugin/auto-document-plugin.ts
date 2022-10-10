@@ -65,8 +65,15 @@ const autoDocumentPlugin = declare((api, options, dirname) => {
         },
         visitor: {
             FunctionDeclaration(path, state) {
-                const docs = state.file.get('docs');
-                docs.push({
+                let comment =
+                    (path.node.leadingComments &&
+                        parseComment(path.node.leadingComments.at(-1).value)) ||
+                    (path.parent &&
+                        path.parent.type === 'ExportDefaultDeclaration' &&
+                        path.parent.leadingComments &&
+                        parseComment(path.parent.leadingComments.at(-1).value));
+
+                const doc = {
                     type: 'function',
                     name: path.get('id').toString(),
                     params: path.get('params').map(paramPath => {
@@ -79,14 +86,15 @@ const autoDocumentPlugin = declare((api, options, dirname) => {
                         resolveType(
                             path.get('returnType').getTypeAnnotation()
                         ) || 'void',
-                    doc:
-                        path.node.leadingComments &&
-                        parseComment(path.node.leadingComments.at(-1).value),
-                });
-                state.file.set('docs', docs);
+                    doc: comment,
+                };
+                if (doc.doc) {
+                    const docs = state.file.get('docs');
+                    docs.push(doc);
+                    state.file.set('docs', docs);
+                }
             },
             ClassDeclaration(path, state) {
-                const docs = state.file.get('docs');
                 const classInfo: any = {
                     type: 'class',
                     name: path.get('id').toString(),
@@ -132,7 +140,7 @@ const autoDocumentPlugin = declare((api, options, dirname) => {
                                 }),
                             };
                         } else {
-                            classInfo.methodsInfo.push({
+                            const methodDoc = {
                                 name: path.get('key').toString(),
                                 doc: parseComment(
                                     path.node.leadingComments.at(-1).value
@@ -151,12 +159,18 @@ const autoDocumentPlugin = declare((api, options, dirname) => {
                                             .get('returnType')
                                             .getTypeAnnotation()
                                     ) || 'void',
-                            });
+                            };
+                            if (methodDoc.doc) {
+                                classInfo.methodsInfo.push(methodDoc);
+                            }
                         }
                     },
                 });
-                docs.push(classInfo);
-                state.file.set('docs', docs);
+                if (classInfo.doc || classInfo.methodsInfo.length) {
+                    const docs = state.file.get('docs');
+                    docs.push(classInfo);
+                    state.file.set('docs', docs);
+                }
             },
         },
         post(file) {

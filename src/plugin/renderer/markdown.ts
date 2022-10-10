@@ -3,12 +3,15 @@
  * @Date: 2022-10-10 15:53:37
  * @LastEditors: pym
  * @Description: TODO xxx
- * @LastEditTime: 2022-10-10 16:18:49
+ * @LastEditTime: 2022-10-10 17:43:49
  */
 export default function (docs) {
     let str = '';
 
     docs.forEach(doc => {
+        if (!doc) {
+            return;
+        }
         if (doc.type === 'function') {
             str = transformFunc(str, doc);
         } else if (doc.type === 'class') {
@@ -58,8 +61,8 @@ function stringRepeate(params, len) {
 }
 function transformFunc(str, doc, titileDeep = 2) {
     str += stringRepeate('#', titileDeep) + ' ' + doc.name + '\n';
-    str += doc.doc.description + '\n';
-    if (doc.doc.tags) {
+    str += (doc.doc?.description || '') + '\n';
+    if (doc.doc?.tags) {
         doc.doc.tags.forEach(tag => {
             str +=
                 (tag.name || tag.title) +
